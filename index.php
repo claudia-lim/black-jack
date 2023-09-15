@@ -8,70 +8,24 @@
 //- if any player >21 - other player wins
 //- if equal score or both >21 - declare a draw
 
-function dealCards(array $fullDeck, int $playerCount): array
+function dealCard(array $fullDeck): string
 {
     $shuffledFullDeck = $fullDeck;
     shuffle($shuffledFullDeck);
-    $dealCards = array_rand($shuffledFullDeck, $playerCount * 2);
-    foreach ($dealCards as $card) {
-        $dealtCards[] = $shuffledFullDeck[$card];
-    }
-    return $dealtCards;
+    return array_pop($shuffledFullDeck);
 }
 
-
-function createPlayerHand(array $playerCards): array
+function createPlayerHand(): array
 {
+    global $fullDeck;
+    for ($i = 0; $i < 2; $i++) {
+        $playerCards[] = dealCard($fullDeck);
+    }
     foreach ($playerCards as $playerCard) {
         $player[] = explode(',', $playerCard);
     }
     return $player;
 }
-
-//$cardsPoints = [2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7, 8=>8, 9=>9, 10=>10, 'J'=>10, 'Q'=>10, 'K'=>10, 'A'=>11];
-$cardTypes = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
-$suits = ['hearts', 'clubs', 'diamonds', 'spades'];
-$fullDeck = [];
-foreach ($suits as $suit) {
-    foreach ($cardTypes as $cardType) {
-        $fullDeck[] = $cardType . ',' . $suit;
-    }
-}
-//echo '<pre>';
-//print_r($fullDeck);
-//echo '</pre>';
-
-$dealtCards = dealCards($fullDeck, 2);
-
-//echo '<pre>';
-//print_r($dealtCards);
-//echo '</pre>';
-
-$player1Cards = [$dealtCards[0], $dealtCards[1]];
-$player2Cards = [$dealtCards[2], $dealtCards[3]];
-
-//echo '<pre>';
-//print_r($player1Cards);
-//echo '</pre>';
-//
-//echo '<pre>';
-//print_r($player2Cards);
-//echo '</pre>';
-
-$player1Hand = createPlayerHand($player1Cards);
-
-echo '<p>Player 1 Hand: ' . $player1Hand[0][0] . ' of ' . $player1Hand[0][1] .
-    ' and ' . $player1Hand[1][0] . ' of ' . $player1Hand[1][1] . '</p>';
-
-$player2Hand = createPlayerHand($player2Cards);
-
-echo '<p>Player 2 Hand: '. $player2Hand[0][0] . ' of ' . $player2Hand[0][1] .
-    ' and ' . $player2Hand[1][0] . ' of ' . $player2Hand[1][1] . '</p>';
-
-//calculate score
-$player1Score = 0;
-$player2Score = 0;
-
 
 function calcScore(array $playerHand): int
 {
@@ -88,34 +42,55 @@ function calcScore(array $playerHand): int
     return $playerScore;
 }
 
-$player1Score = calcScore($player1Hand);
+//make deck
+$cardTypes = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
+$suits = ['hearts', 'clubs', 'diamonds', 'spades'];
+$fullDeck = [];
+foreach ($suits as $suit) {
+    foreach ($cardTypes as $cardType) {
+        $fullDeck[] = $cardType . ',' . $suit;
+    }
+}
 
+//echo '<pre>';
+//print_r($fullDeck);
+//echo '</pre>';
+
+$player1Hand = createPlayerHand();
+$player2Hand = createPlayerHand();
+
+//calculate score
+$player1Score = 0;
+$player2Score = 0;
+
+echo '<pre>';
+print_r($player1Hand);
+echo '</pre>';
+
+echo '<pre>';
+print_r($player2Hand);
+echo '</pre>';
+
+$player1Score = calcScore($player1Hand);
 echo '<p>Player 1 score: ' . $player1Score . '</p>';
 
 $player2Score = calcScore($player2Hand);
-
 echo '<p>Player 2 score: ' . $player2Score . '</p>';
 
 //decide winner/draw
 
 if (($player1Score > 21) && ($player2Score > 21)) {
     echo '<p>Both players are bust!</p>';
-}
-elseif (($player1Score >21) && !($player2Score > 21)) {
+} elseif (($player1Score > 21) && !($player2Score > 21)) {
     echo '<p>Player 1 is bust, Player 2 wins!</p>';
-}
-elseif (($player2Score >21) && !($player1Score > 21)) {
+} elseif (($player2Score > 21) && !($player1Score > 21)) {
     echo '<p>Player 2 is bust, Player 1 wins!</p>';
-}
-elseif ($player1Score > $player2Score) {
+} elseif ($player1Score > $player2Score) {
     echo '<p>Player 1 wins!</p>';
-}
-elseif ($player2Score > $player1Score) {
+} elseif ($player2Score > $player1Score) {
     echo '<p>Player 2 wins!</p>';
-}
-elseif ($player1Score == $player2Score) {
+} elseif ($player1Score == $player2Score) {
     echo '<p>It\'s a draw!</p>';
-}
-else {
+} else {
     echo '<p>Something has gone wrong...</p>';
 }

@@ -13,44 +13,57 @@ require_once 'Player.php';
 //      - shuffle, deal
     // player hand - add card, calculate score
 
-$cardTypes = [[2,2], [3,3], [4, 4], [5,5], [6,6], [7,7], [8,8], [9,9], [10,10], ['J',10], ['Q',10], ['K',10], ['A',11]];
-$suits = ['hearts', 'clubs', 'diamonds', 'spades'];
-$points = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
-$deck = [];
-//echo '<pre>';
-//print_r($cardTypes);
-//echo '</pre>';
 
-foreach ($suits as $suit) {
-    foreach ($cardTypes as $cardType)
+
+$deckObj = new Deck();
+
+function extraCard(Player $player, $deck)
+{
+    $score = $player->tallyScore();
+    if ($score < 14)
     {
-        $deck[] = ['suit'=>$suit, 'type'=>$cardType[0],'points'=>$cardType[1]];
+        echo '<p>Player score less than 14, draw another card</p>';
+        $player->addCard($deck->dealCard());
+        echo '<p>Player hand is now: ' . $player->getHand() . '</p>';
+        echo '<p>New score: ' . $player->tallyScore() . '</p>';
+        return $player->tallyScore();
     }
 }
 
-$cardsObjArray = [];
-foreach ($deck as $individualCard){
-    $cardsObjArray[] = new Card($individualCard['suit'], $individualCard['type'], $individualCard['points']);
-}
-
-$deckObj = new Deck($cardsObjArray);
-
 $shuffledDeck = $deckObj->shuffle();
-
-$firstCard = $deckObj->dealCard();
-
-echo $firstCard->getCard();
-
-$secondCard = $deckObj->dealCard();
 
 //create Player
 $player1 = new Player('Player One');
-$player1->addCard($firstCard);
-$player1->addCard($secondCard);
-$player1Hand = $player1->getHand();
-echo '<pre>';
-print_r($player1Hand);
-echo '</pre>';
+$player2 = new Player('Player Two');
+
+$player1->dealHand($deckObj);
+
+$player2->dealHand($deckObj);
+
+echo $player1->getHand();
+
+//$player1Score = $player1->tallyScore();
+
+echo '<p>Player 1 Score: ' . $player1->tallyScore() . '</p>';
+
+extraCard($player1, $deckObj);
 
 
+echo $player1->getHand();
+
+//if ($player1Score < 14)
+//{
+//    echo '<p>Player less than 14, draw another card</p>';
+//    $player1->addCard($deckObj->dealCard());
+//    echo '<p>Player hand is now: ' . $player1->getHand() . '</p>';
+//    $player1Score = $player1->tallyScore();
+//}
+
+$player2Hand = $player2->getHand();
+
+echo '<p>Player 2</p>' . $player2Hand;
+
+$player2Score = $player2->tallyScore();
+
+echo '<p>Player 2 Score: ' . $player2Score . '</p>';
 

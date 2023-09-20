@@ -3,7 +3,7 @@ require_once 'Deck.php';
 class Player
 {
     private array $hand;
-    private int $score=0;
+    private int $score;
     private string $name;
 
 
@@ -12,14 +12,18 @@ class Player
         $this->name = $name;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
     public function dealHand($deck): void
     {
         $this->hand[] = $deck->dealCard();
         $this->hand[] = $deck->dealCard();
     }
-    public function addCard($card): void
+    public function addCard($deck): void
     {
-        $this->hand[] = $card;
+        $this->hand[] = $deck->dealCard();
     }
 
     public function getHand(): string
@@ -32,14 +36,14 @@ class Player
         }
         foreach ($handArray as $card)
         {
-             $handString .= '<p>' . $card . '</p>';
+             $handString .= '' . $card . ', ';
         }
         return $handString;
-
     }
 
     public function tallyScore(): int
     {
+        $this->score = 0;
         foreach ($this->hand as $card)
         {
             $this->score += $card->getPoints();

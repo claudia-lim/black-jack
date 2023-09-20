@@ -5,76 +5,66 @@ require_once 'Player.php';
 
 //OOP
 //Classes needed:
-    //card
+//card
 //        - suit
 //        - value
 //          - points
-    // deck of cards
+// deck of cards
 //      - array of cards
 //      - shuffle, deal
-    // player hand - add card, calculate score
+// player hand - add card, calculate score
 
 $deckObj = new Deck();
 
-echo '<pre>';
-print_r($deckObj);
-echo '</pre>';
-
-//function extraCard(Player $player, $deck)
-//{
-//    $score = $player->tallyScore();
-//    if ($score < 14)
-//    {
-//        echo '<p>Player score less than 14, draw another card</p>';
-//        $player->addCard($deck->dealCard());
-//        echo '<p>Player hand is now: ' . $player->getHand() . '</p>';
-//        echo '<p>New score: ' . $player->tallyScore() . '</p>';
-//        return $player->tallyScore();
-//    }
-//}
-
 $deckObj->shuffle();
-
-//echo '<pre>';
-//print_r($shuffledDeck);
-//echo '</pre>';
-
-echo '<pre>';
-print_r($deckObj);
-echo '</pre>';
 
 //create Player
 $player1 = new Player('Player One');
 $player2 = new Player('Player Two');
 
+echo '<h3>' . $player1->getName() . '</h3>';
+
 $player1->dealHand($deckObj);
-
-$player2->dealHand($deckObj);
-
 echo $player1->getHand();
+$player1Score = $player1->tallyScore();
 
-//$player1Score = $player1->tallyScore();
+if ($player1Score < 14) {
+    echo '<p>Points less than 14 - Deal another card</p>';
+    $player1->addCard($deckObj);
+    $player1Score = $player1->tallyScore();
+    echo '<p>New hand: ' . $player1->getHand() . '</p>';
+}
+echo '<p>Player 1 Score: ' . $player1Score . '</p>';
 
-echo '<p>Player 1 Score: ' . $player1->tallyScore() . '</p>';
-
-//extraCard($player1, $shuffledDeck);
-
-
-//echo $player1->getHand();
-
-//if ($player1Score < 14)
-//{
-//    echo '<p>Player less than 14, draw another card</p>';
-//    $player1->addCard($deckObj->dealCard());
-//    echo '<p>Player hand is now: ' . $player1->getHand() . '</p>';
-//    $player1Score = $player1->tallyScore();
-//}
-
-$player2Hand = $player2->getHand();
-
-echo '<p>Player 2</p>' . $player2Hand;
-
+echo '<h3>' . $player2->getName() . '</h3>';
+$player2->dealHand($deckObj);
+echo $player2->getHand();
 $player2Score = $player2->tallyScore();
 
+if ($player2Score < 14) {
+    echo '<p>Points less than 14 - Deal another card</p>';
+    $player2->addCard($deckObj);
+    echo '<p>New hand: </p>';
+    echo $player2->getHand();
+    $player2Score = $player2->tallyScore();
+}
 echo '<p>Player 2 Score: ' . $player2Score . '</p>';
 
+//Decide winner
+echo '<h1>';
+if (($player1Score > 21) && ($player2Score > 21)) {
+    echo 'Both players are bust!';
+} elseif (($player1Score > 21) && !($player2Score > 21)) {
+    echo 'Player 1 is bust, Player 2 wins!';
+} elseif (($player2Score > 21) && !($player1Score > 21)) {
+    echo 'Player 2 is bust, Player 1 wins!';
+} elseif ($player1Score > $player2Score) {
+    echo 'Player 1 wins!';
+} elseif ($player2Score > $player1Score) {
+    echo 'Player 2 wins!';
+} elseif ($player1Score == $player2Score) {
+    echo 'It\'s a draw!';
+} else {
+    echo 'Something has gone wrong...';
+}
+echo '</h1>';

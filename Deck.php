@@ -33,8 +33,7 @@ class Deck
 
     public function dealCard(): Card
     {
-        $dealtCard = array_pop($this->shuffledDeck);
-        return $dealtCard;
+        return array_pop($this->shuffledDeck);
     }
 
     public function getDeck() : array

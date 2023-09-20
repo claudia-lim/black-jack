@@ -2,6 +2,7 @@
 require_once 'Card.php';
 require_once 'Deck.php';
 require_once 'Player.php';
+
 //OOP
 //Classes needed:
     //card
@@ -13,24 +14,34 @@ require_once 'Player.php';
 //      - shuffle, deal
     // player hand - add card, calculate score
 
-
-
 $deckObj = new Deck();
 
-function extraCard(Player $player, $deck)
-{
-    $score = $player->tallyScore();
-    if ($score < 14)
-    {
-        echo '<p>Player score less than 14, draw another card</p>';
-        $player->addCard($deck->dealCard());
-        echo '<p>Player hand is now: ' . $player->getHand() . '</p>';
-        echo '<p>New score: ' . $player->tallyScore() . '</p>';
-        return $player->tallyScore();
-    }
-}
+echo '<pre>';
+print_r($deckObj);
+echo '</pre>';
 
-$shuffledDeck = $deckObj->shuffle();
+//function extraCard(Player $player, $deck)
+//{
+//    $score = $player->tallyScore();
+//    if ($score < 14)
+//    {
+//        echo '<p>Player score less than 14, draw another card</p>';
+//        $player->addCard($deck->dealCard());
+//        echo '<p>Player hand is now: ' . $player->getHand() . '</p>';
+//        echo '<p>New score: ' . $player->tallyScore() . '</p>';
+//        return $player->tallyScore();
+//    }
+//}
+
+$deckObj->shuffle();
+
+//echo '<pre>';
+//print_r($shuffledDeck);
+//echo '</pre>';
+
+echo '<pre>';
+print_r($deckObj);
+echo '</pre>';
 
 //create Player
 $player1 = new Player('Player One');
@@ -46,10 +57,10 @@ echo $player1->getHand();
 
 echo '<p>Player 1 Score: ' . $player1->tallyScore() . '</p>';
 
-extraCard($player1, $deckObj);
+//extraCard($player1, $shuffledDeck);
 
 
-echo $player1->getHand();
+//echo $player1->getHand();
 
 //if ($player1Score < 14)
 //{

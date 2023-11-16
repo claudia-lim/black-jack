@@ -20,4 +20,5 @@ A PHP exercise to practice PHP coding whilst studying at iO Academy
 I wrote the code initially in a procedural way (within index.php file), before changing to OOP.
 
 <h2>Future Development</h2>
-I'd like to try and expand beyond the exercise so that it works most closely to a 'real' blackjack game, so a number of players can play against the 'house'. 
+I'd like to try and expand beyond the exercise so that it works more realistically to a 'real' blackjack game, so that the player plays against the 'house', with the option for player to 'hit' if they want to take another card (rather than that happening automatically currently when their score is <14).
+I would also like to introduce some stylistic changes and perhaps incorporate javascript.

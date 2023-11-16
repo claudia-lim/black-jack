@@ -15,3 +15,9 @@ A PHP exercise to practice PHP coding whilst studying at iO Academy
   <li>If either players score is < 14, draw a third card</li>
   <li>If an ace is picked, and the total score is over 21, the ace becomes worth 1 point</li>
 </ol>
+
+<h2>The Process</h2>
+I wrote the code initially in a procedural way (within index.php file), before changing to OOP.
+
+<h2>Future Development</h2>
+I'd like to try and expand beyond the exercise so that it works most closely to a 'real' blackjack game, so a number of players can play against the 'house'. 
